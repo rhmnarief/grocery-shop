@@ -94,7 +94,6 @@ export default class TableProduct extends Component {
                                         <td>{produk.deskripsi}</td>
 
 
-
                                         <td className="button d-flex align-items-center justify-content-center p-4">
                                             <Link to={
                                                 {

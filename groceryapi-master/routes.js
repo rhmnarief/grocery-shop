@@ -9,6 +9,9 @@ module.exports = function (app) {
     app.route('/tampilProduk')
         .get(jsonku.tampilProduk);
 
+    app.route('/search/:nama')
+        .get(jsonku.cariProduk);
+
     app.route('/tampilProduk/:id')
         .get(jsonku.tampilProdukID);
 

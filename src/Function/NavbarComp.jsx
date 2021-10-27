@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, createContext, useReducer, useEffect } from 'react'
 import {
     Navbar,
     NavbarBrand,
@@ -12,14 +12,50 @@ import {
 } from 'reactstrap';
 import { Icon } from '@iconify/react';
 import './CSS/style.css'
+import axios from 'axios';
 
-function NavbarComp() {
+export const searchContext = createContext()
+
+const api = 'http://localhost:3001'
+
+function NavbarComp(props) {
+    // const [result, setResult] = useReducer([])
+    const [search, setSearch] = useState('')
+
+
+    const handleInputChange = (event) => {
+        console.log(event.target.value)
+        setSearch({
+            ...search,
+            [event.target.name]: event.target.value
+        })
+    }
+
+    // const getSearch = () => {
+    //     axios.get(api + '/search/' + search)
+    //         .then(res => {
+    //             setResult({
+    //                 result: res.data.values
+    //             })
+    //         })
+    // }
+
+    // useEffect(() => {
+    //     getSearch()
+    // }, [])
+
+
     const [isOpen, setIsOpen] = useState(false);
 
     const toggle = () => setIsOpen(!isOpen);
 
     return (
         <div className="Navbar">
+            {/* <searchContext.Consumer value={{
+                search,
+                setSearch
+            }}>
+            </searchContext.Consumer> */}
             <Container>
                 <Row>
                     <Navbar color="white" light expand="sm">
@@ -37,7 +73,12 @@ function NavbarComp() {
                                         <center className="d-flex align-items-center">
                                             <i class="fas fa-search"></i>
                                         </center>
-                                        <input placeholder="Search" type="text" />
+                                        <input
+                                            placeholder="Search"
+                                            type="text"
+                                            value={search.data}
+                                            onChange={handleInputChange}
+                                        />
                                         <InputGroupAddon addonType="append">
                                             <Button class="btn btn-success" color="success" type="submit">Search</Button>
                                         </InputGroupAddon>
@@ -72,6 +113,9 @@ function NavbarComp() {
                 </Row>
 
             </Container>
+
+
+
 
         </div>
     )

@@ -16,6 +16,7 @@ class Homepage extends Component {
         super(props)
 
         this.state = {
+            searching: '',
             produk: [],
             respons: ''
         }
@@ -30,11 +31,18 @@ class Homepage extends Component {
                 })
             })
     }
+    handleChange(e) {
+        this.setState({
+            searching: e.target.value
+        })
+    }
 
     render() {
         return (
             <div className="home">
-                <NavbarComp />
+                <NavbarComp
+                    search={this.state.searching}
+                />
                 <JumbotronComp />
                 <Container>
                     <Row className="layout-service">
