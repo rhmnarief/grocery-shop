@@ -1,0 +1,21 @@
+.input-table{
+    background-color: wheat;
+    padding: 24px 30px;
+}
+.input-table input{
+    border-radius: 5px;
+}
+.input-table .deskripsi{
+    text-align: justify;
+    height: 200px;
+}
+.input-table label{
+    margin-top: 10px;
+    margin-bottom: 4px;
+}
+.input-table select, option{
+    width: 300px;
+    padding: 4px 10px;
+    border-radius: 5px;
+    border: none;
+}

@@ -1,0 +1,23 @@
+.login{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 15%;
+}
+.login .head h1{
+    color: black;
+    font-style: bold;
+    font-weight: 600;
+    font-size: 32px;
+}
+.login .form .btn-login{
+    width: 400px;
+    height: 38px;
+    border-radius: 43px;
+}
+.login input{
+    margin-top: 10px;
+    width: 400px;
+    height: 38px;
+}

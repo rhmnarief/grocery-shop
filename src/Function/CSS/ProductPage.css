@@ -1,0 +1,44 @@
+.product-page .desc{
+    background-color: #c4c4c4;
+    border-radius: 20px;
+    padding: 20px 0;
+}
+.product-page h2{
+    color: black;
+}
+.product-page .desc .transaction .button{
+    border: 1px solid grey;
+    padding: 3px;
+    border-radius: 40px;
+}
+
+.product-page .desc .transaction .button .min{
+    color: black;
+    background-color: white;
+    border: none;
+    padding: 6px 13px;
+    border-radius: 120%;
+}
+.product-page .desc .transaction .button .plus{
+    color: black;
+    background-color: white;
+    border: none;
+    padding: 6px 13px;
+    border-radius: 120%;
+}
+.product-page .desc .transaction .btn-cart{
+    margin-left: auto;
+    margin-right: 30px;
+    padding: 7px 120px;
+    border-radius: 20px;
+}
+.product-page .desc .transaction .btn-fav{
+    background-color: rgba(32, 181, 38, 0.1);
+    padding: 7px 12px;
+    border-radius: 100%;
+}
+.product-page .desc .detail .share .social button{
+    margin: 0 4px;
+    background-color: rgba(32, 181, 38, 0.1);
+    
+}

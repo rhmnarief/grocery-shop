@@ -1,0 +1,57 @@
+.big-sales{
+    background-color: gray;
+    height: 620px;
+    border-radius: 10px;
+    padding: 45px;
+}
+.big-sales h1{
+    font-weight: 600;
+    font-size: 48px;
+    line-height: 120%;
+    color: #FFFFFF;
+}
+.big-sales p ,h2{
+    font-size: 14px;
+    line-height: 150%;
+    color: #FFFFFF;
+}
+.big-sales p{
+    opacity: 0.8;
+}
+.big-sales .button{
+    padding: 18px 40px;
+    font-size: 16px;
+    line-height: 120%;
+    color: #00B307;
+    background: #FFFFFF;
+    border-radius: 53px;
+}
+.big-sales .details .line{
+    height: 65px;
+    border-left: thick solid green;
+    margin-right: 10px;
+}
+.jumbo .sales{
+    background-color: gray;
+    padding: 10px;
+    height: 300px;
+    border-radius: 10px;
+    padding: 30px;
+}
+.jumbo .sales button{
+    font-size: 16px;
+    line-height: 120%;  
+    color: #00B307;
+    background-color: transparent ;
+    outline: none;
+    border: none;
+    padding: 0;
+}
+.jumbo .sales p, h1{
+    color: white;
+}
+.jumbo .sales .detail{
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 120%;
+}
