@@ -29,7 +29,6 @@ exports.tampilProdukID = function (req, res) {
         })
 }
 
-
 exports.deleteProduk = function (req, res) {
     var id_produk = req.body.id_produk;
     connection.query('DELETE FROM produk WHERE id_produk=? ', [id_produk],
@@ -41,9 +40,22 @@ exports.deleteProduk = function (req, res) {
             }
         })
 }
+
 exports.cariProduk = function (req, res) {
     var nama = req.body.nama_produk;
     connection.query('SELECT * FROM produk WHERE nama_produk =? ', [nama],
+        function (error, rows, fields) {
+            if (error) {
+                console.log(error)
+            } else {
+                response.ok(rows, res)
+            }
+        })
+}
+
+exports.rekomendasiProduk = function (req, res) {
+    var kategori = req.body.kategori;
+    connection.query('SELECT * FROM produk WHERE kategori = ?', [kategori],
         function (error, rows, fields) {
             if (error) {
                 console.log(error)

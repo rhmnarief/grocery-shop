@@ -15,6 +15,9 @@ module.exports = function (app) {
     app.route('/tampilProduk/:id')
         .get(jsonku.tampilProdukID);
 
+    app.route('/rekomendasi/:kategori')
+        .get(jsonku.rekomendasiProduk);
+
     app.route('/hapusProduk')
         .delete(jsonku.deleteProduk);
 
