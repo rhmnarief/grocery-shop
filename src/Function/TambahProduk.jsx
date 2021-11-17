@@ -16,6 +16,8 @@ import {
     from 'reactstrap'
 import './CSS/InputForm.css'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
+import ProductPage from './ProductPage'
 
 const api = 'http://localhost:3001'
 
@@ -32,9 +34,6 @@ class TambahProduk extends Component {
             kuantitas: '',
             foto: '',
             display: 'none',
-
-
-
             response: '',
         }
     }
@@ -52,8 +51,6 @@ class TambahProduk extends Component {
             [e.target.name]: e.target.value
         })
     }
-
-
     // error input tugas
     tambahProduk = () => {
         console.log('memanggil tambah produk')
@@ -76,22 +73,22 @@ class TambahProduk extends Component {
                 this.setState({
                     response: json.data.values,
                     display: 'block',
-
                 })
             }
         })
 
     }
-
-
     render() {
         return (
             <Container>
-                <Alert color="success" style={{ display: this.state.display }}>
-                    {this.state.response}
-                </Alert>
                 <Row>
                     <Col className="input-table" xs={{ size: 8, offset: 2 }} >
+                        <Alert color="success" style={{ display: this.state.display }}>
+                            {this.state.response}
+                            <Link to='/admin' >
+                                <Button className="btn btn-danger">Kembali</Button>
+                            </Link>
+                        </Alert>
                         <Form>
                             <FormGroup>
                                 <Label for="exampleEmail">Nama Produk</Label>
@@ -115,7 +112,9 @@ class TambahProduk extends Component {
                                 <select className="dropdown" onChange={this.handleChange} name="kategori">
                                     {
                                         this.state.produk.map((produk) =>
-                                            <option key={produk.kategori} name="kategori">{produk.kategori}</option>
+                                            <option key={[... new Set(produk.kategori)]} name="kategori">
+                                                {produk.kategori}
+                                            </option>
                                         )
                                     }
                                 </select>
@@ -125,19 +124,11 @@ class TambahProduk extends Component {
                                 <Input type="text" onChange={this.handleChange} name="foto" id="foto" value={this.state.foto} placeholder="input nama file foto produk" />
                             </FormGroup>
                             <Button className="btn btn-success mt-4" onClick={this.tambahProduk}>Send</Button>
-
                         </Form>
-
                     </Col>
                 </Row>
             </Container>
-
         )
-
     }
-
-
-
 }
-
 export default TambahProduk

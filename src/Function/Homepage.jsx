@@ -9,7 +9,11 @@ import Product from '../Class/Product'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 
+
 const api = 'http://localhost:3001'
+
+
+
 
 class Homepage extends Component {
     constructor(props) {
@@ -36,7 +40,6 @@ class Homepage extends Component {
             searching: e.target.value
         })
     }
-
     render() {
         return (
             <div className="home">
@@ -84,11 +87,7 @@ class Homepage extends Component {
 
 
             </div>
-
         )
-
     }
-
 }
-
 export default Homepage

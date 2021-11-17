@@ -3,11 +3,11 @@
 var response = require('./res');
 var connection = require('./koneksi');
 
-exports.index = function (req, res) {
+exports.index = (req, res) => {
     response.ok("Aplikasi Grocery REST API ku berjalan!", res)
 };
 
-exports.tampilProduk = function (req, res) {
+exports.tampilProduk = (req, res) => {
     connection.query('SELECT * FROM produk',
         function (error, rows, fields) {
             if (error) {
@@ -17,7 +17,7 @@ exports.tampilProduk = function (req, res) {
             }
         })
 }
-exports.tampilProdukID = function (req, res) {
+exports.tampilProdukID = (req, res) => {
     let id = req.params.id;
     connection.query('SELECT * FROM produk WHERE id_produk = ?', [id],
         function (error, rows, fields) {
@@ -29,7 +29,7 @@ exports.tampilProdukID = function (req, res) {
         })
 }
 
-exports.deleteProduk = function (req, res) {
+exports.deleteProduk = (req, res) => {
     var id_produk = req.body.id_produk;
     connection.query('DELETE FROM produk WHERE id_produk=? ', [id_produk],
         function (error, rows, fields) {
@@ -41,7 +41,7 @@ exports.deleteProduk = function (req, res) {
         })
 }
 
-exports.cariProduk = function (req, res) {
+exports.cariProduk = (req, res) => {
     var nama = req.body.nama_produk;
     connection.query('SELECT * FROM produk WHERE nama_produk =? ', [nama],
         function (error, rows, fields) {
@@ -53,7 +53,7 @@ exports.cariProduk = function (req, res) {
         })
 }
 
-exports.rekomendasiProduk = function (req, res) {
+exports.rekomendasiProduk = (req, res) => {
     var kategori = req.body.kategori;
     connection.query('SELECT * FROM produk WHERE kategori = ?', [kategori],
         function (error, rows, fields) {
@@ -65,7 +65,7 @@ exports.rekomendasiProduk = function (req, res) {
         })
 }
 
-exports.tampilPromo = function (req, res) {
+exports.tampilPromo = (req, res) => {
     connection.query('SELECT diskon.id_diskon,produk.kategori,  produk.nama_produk, produk.deskripsi , produk.harga, diskon.potongan , diskon.masa_promo FROM produk JOIN diskon WHERE produk.id_produk = diskon.id_produk ORDER BY produk.kategori',
         function (error, rows, fields) {
             if (error) {
@@ -77,26 +77,17 @@ exports.tampilPromo = function (req, res) {
 }
 
 
-exports.tambahProduk = function (req, res) {
-    var nama_produk = req.body.nama_produk
-    var kuantitas = req.body.kuantitas;
-    var deskripsi = req.body.deskripsi;
-    var harga = req.body.harga;
-    var kategori = req.body.kategori;
-    var foto = req.body.foto;
+exports.tambahProduk = (req, res) => {
 
     connection.query('INSERT INTO produk (nama_produk,kuantitas,harga, deskripsi,kategori,foto) VALUES (?,?,?,?,?,?)',
         [nama_produk, kuantitas, harga, deskripsi, kategori, foto],
         function (error, rows, fields) {
-            if (error) {
-                console.log(error)
-            } else {
-                response.ok("Berhasil Menambahkan Data !", res)
-            }
+            if (error) console.log(error)
+            else response.ok("Berhasil Menambahkan Data !", res)
         })
 
 }
-exports.tambahPromo = function (req, res) {
+exports.tambahPromo = (req, res) => {
     var id_produk = req.body.id_produk
     var potongan = req.body.potongan;
     var masa_promo = req.body.masa_promo;
@@ -111,4 +102,150 @@ exports.tambahPromo = function (req, res) {
             }
         })
 
+}
+
+exports.ubahProduk = (req, res) => {
+    var nama_produk = req.body.nama_produk
+    var kuantitas = req.body.kuantitas;
+    var deskripsi = req.body.deskripsi;
+    var harga = req.body.harga;
+    var kategori = req.body.kategori;
+    var foto = req.body.foto;
+    var id_produk = req.body.id_produk;
+
+    connection.query('UPDATE produk SET nama_produk=? ,kuantitas=?, harga=?, deskripsi= ?,kategori= ?,foto=? WHERE id_produk = ? ',
+        [nama_produk, kuantitas, harga, deskripsi, kategori, foto, id_produk],
+        function (error, rows, fields) {
+            if (error) {
+                console.log(error)
+            } else {
+                response.ok("Berhasil Mengubah Data", res)
+            }
+        })
+}
+
+exports.tambahKeranjang = (req, res) => {
+    var jumlah = req.body.jumlah
+    var id = req.body.id_user
+    var id_produk = req.body.id_produk
+    connection.query('INSERT INTO keranjang ( id_user, id_produk, jumlah) VALUES (?,?,?) ', [id, id_produk, jumlah],
+        function (error, rows, fields) {
+            if (error) {
+                console.log(error)
+            } else {
+                response.ok('berhasil menambah keranjang !', res)
+            }
+        }
+    )
+}
+
+exports.lihatAlamat = (req,res) => {
+    let id_user = req.params.id_user;
+    connection.query('SELECT * FROM information WHERE id_user =?', [id_user],
+    function (error, rows, fields) {
+        if (error) {
+            console.log(error)
+        } else {
+            response.ok(rows, res)
+        }
+    })
+}
+
+exports.transaksi = (req, res) => {
+    const { id, totalProduct } = req.body;
+    const id_transaksi = `${id}${new Date().toLocaleString().replace(/[^\d]/g,"")}`
+
+    let isSuccess = 0
+
+    totalProduct.forEach((product, idx) => {
+
+        const {id_produk, jumlah} = product
+
+        connection.query('INSERT INTO transaksi (id_produk, jumlah, id_user, id_transaksi) VALUES (?,?,?,?)', 
+        [id_produk, jumlah, id, id_transaksi],
+        function(error, rows, fields){
+            if (error) console.log(error)
+            else isSuccess++
+        })
+    })
+
+    if (isSuccess === totalProduct.length){
+        response.ok('Berhasil Menambahkan Transaksi !', res)
+    }
+
+}
+
+exports.invoice = (req, res) =>{
+    const {cart, id} = req.body;
+    const status = false;
+    const transaksi_date = new Date()
+    const id_transaksi = `${id}${new Date().toLocaleString().replace(/[^\d]/g,"")}`
+    connection.query('INSERT INTO invoice (id_transaksi, transaksi_date ,total, id_user, status) VALUES (?,?,?,?,?)',
+    [id_transaksi, transaksi_date, cart, id, status],
+    function(error, rows, fields){
+        if (error) {
+            console.log(error)}
+        else{
+            response.ok('Transaksi Berhasil', res)
+        }
+    })
+}
+exports.getInvoice =(req, res) =>{
+    let id_user = req.params.id_user;
+    connection.query('SELECT * FROM invoice WHERE invoice.id_user = ? ', [id_user],
+    function(error, rows, fields){
+        if(error){
+            console.log(error)
+        }else{
+            response.ok(rows, res)
+        }
+    })
+
+}
+
+exports.getDetailInvoice = (req, res) =>{
+    const {id} = req.body
+    connection.query('SELECT invoice.id_transaksi, transaksi.id_produk, produk.nama_produk, transaksi.jumlah, invoice.total FROM invoice JOIN transaksi JOIN produk WHERE invoice.id_transaksi = transaksi.id_transaksi AND transaksi.id_produk = produk.id_produk AND invoice.id_user = ?',
+    [id],
+    function(error, rows, fields){
+        if(error){
+            console.log(error)
+        }else{
+            response.ok(rows, res)
+        }
+    })
+}
+
+exports.tambahAlamat = (req,res) => {
+    const {firstname, lastname, address, city, states, zip, email, phone, id_user, additional, payment} = req.body;
+    
+    connection.query('INSERT INTO information (firstname,lastname,address,city,states,zip,email,phone,id_user,additional,payment) VALUES (?,?,?,?,?,?,?,?,?,?,?)', 
+    [firstname, lastname, address, city, states, zip, email, phone, id_user, additional, payment],
+    function(error,rows,fields){
+        if(error) console.log(error) 
+        else response.ok('berhasil menambah data alamat!', res)
+    })
+}
+
+exports.updateAlamat = (req,res) => {
+    const {firstname, lastname, address, city, states, zip, email, phone, id_user, additional, payment} = req.body;
+    connection.query('UPDATE information SET firstname = ?,lastname = ?,address= ?,city= ?,states = ?,zip = ?, email = ?,phone= ?, additional = ?, payment= ?  WHERE id_user =? ', 
+    [firstname, lastname, address, city, states, zip, email, phone, additional, payment, id_user],
+    function(error,rows,fields){
+        if(error) console.log(error) 
+        else response.ok('berhasil menambah data alamat!', res)
+    })
+
+}
+
+exports.getTransaction = (req,res)=>{
+    const id_user = req.params.id_user
+    connection.query('SELECT transaksi.id_produk, transaksi.id_user, transaksi.id_transaksi, transaksi.jumlah, produk.nama_produk, produk.harga, produk.foto FROM transaksi, produk WHERE transaksi.id_produk = produk.id_produk AND transaksi.id_user =? ',[id_user],
+    function(error,rows,fields){
+        if(error){
+            console.log(error)
+        }else{
+            response.ok(rows, res)
+        }
+    })
 }

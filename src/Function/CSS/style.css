@@ -25,7 +25,14 @@
     font-size: 11px;
 }
 .navbar .cart .cart-icon{
+    color: black;
     margin: 0 5px;
+}
+.navbar .cart .logout button{
+    margin-left: 20px;
+    background: none;
+    color: none;
+    border: none;
 }
 
 .home .layout-service{
@@ -36,6 +43,7 @@
     border-radius: 10px;
     padding: 32px;
     margin: 20px;
+    
 
 }
 

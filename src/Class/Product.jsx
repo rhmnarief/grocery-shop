@@ -25,7 +25,6 @@ function Product(props) {
                         </Link>
                     </div>
                 </div>
-
             </div>
         </Col>
 

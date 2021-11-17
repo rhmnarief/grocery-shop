@@ -1,31 +1,61 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { Container, Row, Col, Button } from 'reactstrap'
+import React, { useState, useEffect, useContext, setItem, createContext } from 'react'
+import { Container, Row, Col, Button, Alert } from 'reactstrap'
 import './CSS/ProductPage.css'
 import { Icon } from '@iconify/react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import NavbarComp from './NavbarComp';
+import RecomendComp from '../Class/RecomendComp'
 
 const api = 'http://localhost:3001'
 function ProductPage() {
 
+    const initNotif = {
+        display: 'none',
+        response: ''
+    }
+    const [notif, setNotif] = useState(initNotif)
+
+    // get Details Data on product page
+
+    const initialProduct = {
+        deskripsi: "",
+        foto: "",
+        harga: 0,
+        kategori: "",
+        kuantitas: 0,
+        nama_produk: "",
+    }
+    const initRecomend = {
+        id_produk: '',
+        nama_produk: '',
+        jumlah: '',
+        foto: '',
+        harga: ''
+    }
+    const [recomend, setRecomend] = useState(initRecomend)
+
     let { id } = useParams()
-    const [total, setTotal] = useState(1)
-    const [product, setProduct] = useState([])
-    const getDetails = () => {
+    const [product, setProduct] = useState(initialProduct)
+
+
+    const getProduct = () => {
         axios.get(api + '/tampilProduk/' + id)
             .then((res) => {
                 console.log(res.data.values)
                 setProduct(res.data.values[0])
             })
-            .catch(e => {
-                console.log(e)
-            })
     }
-    useEffect(() => {
-        getDetails()
+    let Category = product.kategori
+    const getRecomend = () => {
+        console.log('ini kategori', Category)
+        axios.get('http://localhost:3001/rekomendasi/' + Category)
+            .then((results) => console.log(results.data))
+    }
 
-    }, [])
+
+    // set tottal product
+    const [total, setTotal] = useState(1)
     const minTotal = () => {
         if (total > 1) {
             setTotal(total - 1)
@@ -38,11 +68,58 @@ function ProductPage() {
         }
     }
 
+    const initKeranjang = {
+        id_produk: id,
+        nama_produk: product.nama_produk,
+        jumlah: total,
+        foto: product.foto,
+        harga: product.harga,
+    }
+    const addKeranjang = () => {
+        var currentKeranjang = localStorage.getItem("keranjang") ? JSON.parse(localStorage.getItem("keranjang")) : [initKeranjang]
+        console.log("isi current keranjang:", currentKeranjang)
+        // var combineKeranjang = []
+        // combineKeranjang.push(currentKeranjang)
+        console.log(currentKeranjang.length)
+        var found = false
+        currentKeranjang.forEach(element => {
+            if (element.id_produk == initKeranjang.id_produk) {
+                element.jumlah += initKeranjang.jumlah
+                found = true
+                return
+            }
+        });
+        if (!found) {
+            currentKeranjang.push(initKeranjang)
+        }
+        localStorage.setItem("keranjang", JSON.stringify(currentKeranjang))
+        setTimeout(() => {
+            setNotif({
+                notif: 'block',
+                response: 'Produk berhasil ditambahkan ke keranjang'
+            })
+        })
+    }
+
+
+
+    // didmounted implementation in hooks
+    useEffect(() => {
+        getProduct()
+        getRecomend()
+
+    }, [])
+
+
+
     return (
         <div className="product-page">
             <NavbarComp />
             <Container >
-                <Row className="desc mt-5 p-5">
+                <Alert color="success" style={{ display: notif.display }}>
+                    {notif.response}
+                </Alert>
+                <Row className="desc mt-3 p-5">
                     <Col xs="5" className="details">
                         <div className="image">
                             <img src={process.env.PUBLIC_URL + '/assets/' + product.foto} alt="" width="400px" />
@@ -75,7 +152,7 @@ function ProductPage() {
                                         +
                                     </Button>
                                 </div>
-                                <Button className="btn-cart btn-success">
+                                <Button className="btn-cart btn-success" onClick={addKeranjang}>
                                     Add to Cart
                                     <Icon icon="icon-park-outline:buy" color="white" width="24px" />
                                 </Button>
@@ -86,7 +163,7 @@ function ProductPage() {
                                 </Button>
                             </div>
                             <hr />
-                            <p> <strong>Category :</strong></p>
+                            <p> <strong>Category :</strong> {product.kategori} </p>
                             <div className="share d-flex align-items-center">
                                 <p className="m-0" > <strong>Share :</strong> </p>
                                 <div className="m-2"></div>
@@ -108,23 +185,16 @@ function ProductPage() {
                                     </Button>
 
                                 </div>
-
-
                             </div>
-
-
                         </div>
-
                     </Col>
-
                 </Row>
 
-            </Container>
 
+            </Container>
         </div>
 
 
     )
 }
-
 export default ProductPage

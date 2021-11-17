@@ -27,6 +27,36 @@ module.exports = function (app) {
     app.route('/tambahProduk')
         .put(jsonku.tambahProduk);
 
+    app.route('/ubahProduk')
+        .post(jsonku.ubahProduk);
+
     app.route('/tambahPromo')
         .post(jsonku.tambahPromo);
+
+    app.route('/masukKeranjang')
+        .put(jsonku.tambahKeranjang);
+
+    app.route('/tambahAlamat')
+        .put(jsonku.tambahAlamat);
+
+    app.route('/ubahAlamat')
+        .post(jsonku.updateAlamat);
+
+    app.route('/alamat/:id_user')
+        .get(jsonku.lihatAlamat);
+
+    app.route('/transaksi')
+        .put(jsonku.transaksi)
+
+    app.route('/sendInvoice')
+        .put(jsonku.invoice)
+    
+    app.route('/tampilSemuaInvoice/:id_user')
+        .get(jsonku.getInvoice)
+
+    // app.route('/tampilInvoice/:id')
+    //     .get(jsonku.getDetailInvoice)
+
+    app.route('/lihatTransaksi/:id_user')
+        .get(jsonku.getTransaction)
 }

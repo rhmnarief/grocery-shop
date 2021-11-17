@@ -1,0 +1,22 @@
+.cart-page h1, h2, h3{
+    color: black;
+}
+
+.cart-page .total-payment .row{
+    background-color: white;
+    border: 1px solid #C4C4C4;
+    border-radius: 3px;
+    padding: 30px;
+    margin-top: 30px;
+}
+.cart-page .total-payment .row .sub-total{
+    display: flex;
+}
+.cart-page .total-payment .row .sub-total .text{
+    margin-left: auto;
+}
+.cart-page .total-payment .link .btn-success{
+    text-decoration: none;
+    color: white;
+    width: 100%;
+}

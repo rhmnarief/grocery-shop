@@ -1,0 +1,21 @@
+.order{
+    margin-top: 20px;
+    background-color: white;
+    padding: 40px 20px;
+    border: 1px solid #c4c4c4;
+    border-radius: 10px;
+}
+.order h2{
+    color: black;
+}
+.order .detail .price{
+    margin-left: auto ;
+}
+.order .aligntext .total{
+    margin-left: auto;
+}
+.order .payment button{
+    margin-top: 30px;
+    padding: 10px 130px;
+    border-radius: 30px ;
+}

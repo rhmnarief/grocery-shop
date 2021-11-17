@@ -2,13 +2,10 @@ import React, { Component, Fragment, useContext, useState } from 'react';
 import { Button, Container, Form, FormGroup, Label, Input, Col, Row } from 'reactstrap';
 import '../Function/CSS/Login.css'
 import { AuthContext } from '../App';
-
 import axios from 'axios';
 
 const qs = require('querystring')
 const api = 'http://localhost:3001'
-
-
 
 function Login(props) {
     const { dispatch } = useContext(AuthContext)
@@ -63,9 +60,7 @@ function Login(props) {
                 }
                 throw res
             })
-
     }
-
     return (
         <Container>
             <Row>
@@ -96,7 +91,6 @@ function Login(props) {
                                         onChange={handleInputChange}
                                     />
                                 </FormGroup>
-
                                 {
                                     data.errorMessage && (
                                         <div className="alert alert-danger mt-2" role="alert">

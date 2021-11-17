@@ -5,6 +5,7 @@ import {
     Row,
     Col,
     Button,
+    Alert
 } from 'reactstrap'
 import qs from 'querystring';
 import { Link, withRouter } from 'react-router-dom';
@@ -19,7 +20,8 @@ export default class TableProduct extends Component {
         super(props)
         this.state = {
             produk: [],
-            response: ''
+            response: '',
+            display: 'none'
         }
     }
     componentDidMount() {
@@ -64,6 +66,9 @@ export default class TableProduct extends Component {
             <Container>
                 <Row>
                     <Col xs="12">
+                        <Alert color="success" className="mt-3" style={{ display: this.state.display }}>
+                            {this.state.response}
+                        </Alert>
 
                         <Table className="table">
                             <thead>
@@ -100,9 +105,10 @@ export default class TableProduct extends Component {
                                                     pathname: '/edit-product',
                                                     state: {
                                                         id: produk.id_produk,
-                                                        nama_produk: produk.nama,
+                                                        nama_produk: produk.nama_produk,
                                                         harga: produk.harga,
                                                         kuantitas: produk.kuantitas,
+                                                        kategori: produk.kategori,
                                                         deskripsi: produk.deskripsi,
                                                         foto: produk.foto,
                                                     }
@@ -123,8 +129,6 @@ export default class TableProduct extends Component {
                                         </td>
 
                                     </tr>
-
-
                                 )}
 
 

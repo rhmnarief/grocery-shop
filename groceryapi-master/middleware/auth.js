@@ -228,6 +228,7 @@ exports.login = function (req, res) {
                                    expires: expired,
                                    currUser: data.id_user,
                                    user: username,
+                                   id: id_user,
                                    //3 tambahkan role
                                    role: role,
                                    isVerified: isVerified

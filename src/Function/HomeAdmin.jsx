@@ -8,8 +8,6 @@ import NavbarComp from './NavbarComp'
 const api = 'http://localhost:3001'
 function HomeAdmin() {
 
-
-
     return (
         <div>
             <NavbarComp />

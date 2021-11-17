@@ -1,4 +1,4 @@
-import React, { useState, createContext, useReducer, useEffect } from 'react'
+import React, { useContext,useState, createContext, useReducer, useEffect } from 'react'
 import {
     Navbar,
     NavbarBrand,
@@ -10,9 +10,11 @@ import {
     Row,
     Col,
 } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import './CSS/style.css'
 import axios from 'axios';
+import { AuthContext } from '../App'
 
 export const searchContext = createContext()
 
@@ -21,6 +23,7 @@ const api = 'http://localhost:3001'
 function NavbarComp(props) {
     // const [result, setResult] = useReducer([])
     const [search, setSearch] = useState('')
+    const { state, dispatch } = useContext(AuthContext)
 
 
     const handleInputChange = (event) => {
@@ -61,7 +64,7 @@ function NavbarComp(props) {
                     <Navbar color="white" light expand="sm">
                         <Col xs="2">
                             <div className="navbar-brand">
-                                <NavbarBrand href="/">
+                                <NavbarBrand>
                                     <img src={process.env.PUBLIC_URL + '/assets/Logo.svg'} alt="" />
                                 </NavbarBrand>
                             </div>
@@ -88,23 +91,20 @@ function NavbarComp(props) {
                         </Col>
                         <Col xs={{ size: 2, offset: 2 }}>
                             <div className="cart d-flex align-items-center justify-content-center">
-                                <div className="icon">
-                                    <Icon icon="carbon:favorite" width="32px" color="black" />
+                                <div className="cart-shop d-flex align-items-center justify-content-center">
+                                    <Link to='/keranjang' className="cart-icon">
+                                        <Icon icon="bi:cart" width="32px" />
+                                    </Link>
                                 </div>
                                 <div className="devider"></div>
-                                <div className="cart-shop d-flex align-items-center justify-content-center">
-                                    <div className="cart-icon">
-                                        <Icon icon="bi:cart" width="32px" />
-                                    </div>
-                                    <div className="detail">
-                                        <p className="m-0">Shopping cart:</p>
-                                        <strong>
-                                            <p className="m-0">Rp.200.000</p>
-                                        </strong>
-                                    </div>
+                                <div className="icon">
+                                    <Link to='/profile' className="cart-icon">
+                                    <Icon icon="bi:person" width="32px" color="black" />
+                                    </Link>
                                 </div>
-
-
+                                <div className="logout">
+                                    <button onClick={() =>dispatch({type: "LOGOUT"})}><Icon icon="ci:log-out" width="26px" /></button>
+                                </div>
                             </div>
 
                         </Col>

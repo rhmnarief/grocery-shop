@@ -1,0 +1,19 @@
+.form{
+    background: white;
+    padding: 10px;
+}
+.form h2{
+    color: black;
+}
+.form .identity .input{
+    width: 360px;
+}
+.form .identity , .address , .contact{
+    justify-content: space-between;
+}
+.form .contact input{
+    width: 380px;
+}
+.form .additional textarea{
+    height: 150px;
+}
