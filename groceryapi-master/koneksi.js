@@ -5,7 +5,7 @@ const conn = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'grocerydb',
+    database: 'data_grocery',
     port: '3306'
 });
 

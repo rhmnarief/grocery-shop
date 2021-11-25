@@ -51,11 +51,14 @@ module.exports = function (app) {
     app.route('/sendInvoice')
         .put(jsonku.invoice)
     
+    app.route('/tampilSemuaInvoice')
+        .get(jsonku.getAllInvoice)
+
     app.route('/tampilSemuaInvoice/:id_user')
         .get(jsonku.getInvoice)
 
-    // app.route('/tampilInvoice/:id')
-    //     .get(jsonku.getDetailInvoice)
+    app.route('/tampilSemuaInvoice')
+        .get(jsonku.getAllInvoice)
 
     app.route('/lihatTransaksi/:id_user')
         .get(jsonku.getTransaction)

@@ -80,7 +80,6 @@ export default class TableProduct extends Component {
                                     <th> <center>Kuantitas</center></th>
                                     <th> <center>Deskripsi</center></th>
                                     <th> <center>Edit</center></th>
-                                    {/* <th>Jam</th> */}
 
                                 </tr>
                             </thead>
@@ -96,7 +95,7 @@ export default class TableProduct extends Component {
                                                 {produk.kuantitas}
                                             </center>
                                         </td>
-                                        <td>{produk.deskripsi}</td>
+                                        <td style={{ width :'400px'}}>{produk.deskripsi}</td>
 
 
                                         <td className="button d-flex align-items-center justify-content-center p-4">
@@ -134,15 +133,7 @@ export default class TableProduct extends Component {
 
                             </tbody>
                         </Table>
-                        <Table>
-                            <thead>
-                                <tr>Nama Produk</tr>
-                            </thead>
-                            <tbody>
-
-                            </tbody>
-                        </Table>
-
+                        
 
 
                     </Col>

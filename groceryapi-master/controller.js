@@ -78,7 +78,7 @@ exports.tampilPromo = (req, res) => {
 
 
 exports.tambahProduk = (req, res) => {
-
+    const { nama_produk, kuantitas, harga, deskripsi, kategori, foto } = req.body;
     connection.query('INSERT INTO produk (nama_produk,kuantitas,harga, deskripsi,kategori,foto) VALUES (?,?,?,?,?,?)',
         [nama_produk, kuantitas, harga, deskripsi, kategori, foto],
         function (error, rows, fields) {
@@ -141,7 +141,7 @@ exports.tambahKeranjang = (req, res) => {
 
 exports.lihatAlamat = (req,res) => {
     let id_user = req.params.id_user;
-    connection.query('SELECT * FROM information WHERE id_user =?', [id_user],
+    connection.query('SELECT * FROM alamat WHERE id_user =?', [id_user],
     function (error, rows, fields) {
         if (error) {
             console.log(error)
@@ -158,9 +158,7 @@ exports.transaksi = (req, res) => {
     let isSuccess = 0
 
     totalProduct.forEach((product, idx) => {
-
         const {id_produk, jumlah} = product
-
         connection.query('INSERT INTO transaksi (id_produk, jumlah, id_user, id_transaksi) VALUES (?,?,?,?)', 
         [id_produk, jumlah, id, id_transaksi],
         function(error, rows, fields){
@@ -202,6 +200,17 @@ exports.getInvoice =(req, res) =>{
     })
 
 }
+exports.getAllInvoice = (req,res) => {
+    connection.query('SELECT invoice.id_invoice, invoice.id_transaksi, invoice.total, invoice.transaksi_date, invoice.status, alamat.firstname , alamat.lastname ,alamat.payment, alamat.city , alamat.zip, alamat.address FROM invoice JOIN alamat WHERE invoice.id_user = alamat.id_user;',
+    function(error,rows,fields) {
+        if(error){
+            console.log(error)
+        }
+        else{
+            response.ok(rows, res)
+        }  
+    })
+}
 
 exports.getDetailInvoice = (req, res) =>{
     const {id} = req.body
@@ -219,7 +228,7 @@ exports.getDetailInvoice = (req, res) =>{
 exports.tambahAlamat = (req,res) => {
     const {firstname, lastname, address, city, states, zip, email, phone, id_user, additional, payment} = req.body;
     
-    connection.query('INSERT INTO information (firstname,lastname,address,city,states,zip,email,phone,id_user,additional,payment) VALUES (?,?,?,?,?,?,?,?,?,?,?)', 
+    connection.query('INSERT INTO alamat (firstname,lastname,address,city,states,zip,email,phone,id_user,additional,payment) VALUES (?,?,?,?,?,?,?,?,?,?,?)', 
     [firstname, lastname, address, city, states, zip, email, phone, id_user, additional, payment],
     function(error,rows,fields){
         if(error) console.log(error) 
@@ -229,7 +238,7 @@ exports.tambahAlamat = (req,res) => {
 
 exports.updateAlamat = (req,res) => {
     const {firstname, lastname, address, city, states, zip, email, phone, id_user, additional, payment} = req.body;
-    connection.query('UPDATE information SET firstname = ?,lastname = ?,address= ?,city= ?,states = ?,zip = ?, email = ?,phone= ?, additional = ?, payment= ?  WHERE id_user =? ', 
+    connection.query('UPDATE alamat SET firstname = ?,lastname = ?,address= ?,city= ?,states = ?,zip = ?, email = ?,phone= ?, additional = ?, payment= ?  WHERE id_user =? ', 
     [firstname, lastname, address, city, states, zip, email, phone, additional, payment, id_user],
     function(error,rows,fields){
         if(error) console.log(error) 

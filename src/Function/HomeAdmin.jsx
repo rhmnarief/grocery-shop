@@ -4,6 +4,7 @@ import TableProduct from '../Class/TableProduct'
 import { Container, Row, Col, Button } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import NavbarComp from './NavbarComp'
+import TableInvoice from '../Class/TableInvoice'
 
 const api = 'http://localhost:3001'
 function HomeAdmin() {
@@ -23,6 +24,7 @@ function HomeAdmin() {
                 </Row>
             </Container>
             <TableProduct />
+            <TableInvoice />
 
         </div>
     )

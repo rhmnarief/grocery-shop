@@ -1,5 +1,5 @@
 .input-table{
-    background-color: wheat;
+    background-color: white;
     padding: 24px 30px;
 }
 .input-table input{
@@ -18,4 +18,8 @@
     padding: 4px 10px;
     border-radius: 5px;
     border: none;
+}
+.input-table a{
+    text-decoration: none;
+    color: black;
 }
