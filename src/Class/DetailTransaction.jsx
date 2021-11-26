@@ -38,7 +38,7 @@ function DetailTransaction() {
                             </thead>
                             <tbody>
                                 {
-                                    invoices.map((invoice) =>
+                                    invoices?.map((invoice) =>
                                         <tr key={invoice.id}>
                                             <td>
                                                 <center>
@@ -68,7 +68,6 @@ function DetailTransaction() {
                                                 {invoice.harga * invoice.jumlah}
                                                 </center>
                                             </td>
-
                                         </tr>
                                     )
                                 }

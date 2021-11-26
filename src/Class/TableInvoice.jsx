@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Table, Container, Row, Col, Button } from "reactstrap";
+import { Table, Container, Row, Col, Button, Alert } from "reactstrap";
 import axios from "axios";
 import qs from "querystring";
 import { Link } from 'react-router-dom';
@@ -11,6 +11,8 @@ export default class TableInvoice extends Component {
     super(props);
     this.state = {
       invoices: [],
+      response : '',
+      display : 'none',
     };
   }
   getDataInvoice() {
@@ -24,28 +26,48 @@ export default class TableInvoice extends Component {
   componentDidMount() {
     this.getDataInvoice();
   }
-  handleChangeStatus(stat) {
-    let changeStatus = stat;
-    changeStatus = 1;
-    axios.post("/updateStatus", changeStatus).then((json) => {
-      console.log("ubah data ke json");
-      if (json === 200) {
-        this.setState({
-          response: json.data.values,
-          display: "block",
-        });
-      } else {
-        this.setState({
-          response: json.data.values,
-          display: "block",
-        });
+  handleChangeStatus(stat, id) {
+    if (stat === 0){
+      let changeStatus = stat;
+      changeStatus = 1;
+      let id_invoice = id
+      const toBeSend = {
+        changeStatus,
+        id_invoice
       }
-    });
+      axios.post(api + "/updateStatus", toBeSend)
+      .then((json) => {
+        console.log("ubah data ke json");
+        if (json === 200) {
+          this.setState({
+            response: json.data.values,
+            display: "block",
+          });
+        } else {
+          this.setState({
+            response: json.data.values,
+            display: "block",
+          });
+        }
+        this.getDataInvoice()
+      });
+    }else{
+      this.setState({
+        response: "Status Sudah Berhasil diubah",
+        display: "block",
+        color : 'danger'
+      });
+    }
+   
   }
+
   render() {
     return (
       <div>
         <Container>
+        <Alert  className="mt-3" style={{ display: this.state.display  }} color={this.state.color}>
+           {this.state.response}
+        </Alert>
           <Row>
             <Col xs="12">
               <Table className="table">
@@ -73,11 +95,13 @@ export default class TableInvoice extends Component {
                     </th>
                     <th>
                       {" "}
-                      <center>Payment</center>
+                      <center>Status</center>
                     </th>
                     <th>
                       {" "}
-                      <center>Status</center>
+                      <center>
+                      Payment
+                      </center>
                     </th>
                     <th>
                       {" "}
@@ -146,7 +170,7 @@ export default class TableInvoice extends Component {
                           <Button
                             className="btn"
                             onClick={() =>
-                              this.handleChangeStatus(invoice.status)
+                              this.handleChangeStatus(invoice.status ,invoice.id_invoice)
                             }
                           >
                             <svg

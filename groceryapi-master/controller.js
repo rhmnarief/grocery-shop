@@ -228,17 +228,16 @@ exports.getDetailInvoice = (req,res) => {
 }
 
 exports.updateStatusInvoice = (req,res) => {
-    const {changeStatus} = req.body;
-    console.log(changeStatus)
-    // connection.query('UPDATE invoice SET status = ? WHERE id_invoice = 6', [stat],
-    // function(error,rows,fields) {
-    //     if(error){
-    //         console.log(error)
-    //     }
-    //     else{
-    //         response.ok('berhasil merubah data alamat!', res)
-    //     }  
-    // })
+    const {changeStatus, id_invoice} = req.body;
+    connection.query('UPDATE invoice SET status = ? WHERE id_invoice = ?', [changeStatus, id_invoice],
+    function(error,rows,fields) {
+        if(error){
+            console.log(error)
+        }
+        else{
+            response.ok('Berhasil Merubah Status Pesanan!', res)
+        }  
+    })
 }
 
 
