@@ -60,6 +60,12 @@ module.exports = function (app) {
     app.route('/tampilSemuaInvoice')
         .get(jsonku.getAllInvoice)
 
+    app.route('/detailInvoice/:id_transaksi')
+        .get(jsonku.getDetailInvoice)
+
+    app.route('/updateStatus')
+        .post(jsonku.updateStatusInvoice)
+
     app.route('/lihatTransaksi/:id_user')
         .get(jsonku.getTransaction)
 }

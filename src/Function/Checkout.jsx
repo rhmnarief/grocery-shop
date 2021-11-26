@@ -51,8 +51,7 @@ function Checkout(props) {
   };
 
   const postInformation = () => {
-    console.log("test postInformation");
-    axios.put(API + "/tambahAlamat", Form).then((json) => {
+    axios.post(API + "/ubahAlamat", Form).then((json) => {
       if (json === 200) {
         setForm({
           response: json.data.values,
@@ -103,13 +102,11 @@ function Checkout(props) {
     putTransaction();
     postInformation();
     putInvoice();
+    window.localStorage.clear("keranjang");
    
   }
 
-  // const backHome = () => {
-  //   window.localStorage.clear("keranjang");
-  //   window.location = "http://localhost:3000/home";
-  // };
+ 
 
   useEffect(() => {
     getTotal();

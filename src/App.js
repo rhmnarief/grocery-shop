@@ -14,6 +14,7 @@ import FunctionCartPage from "./Class/FunctionCartPage";
 import EditProfile from "./Function/EditProfile";
 import Success from "./Function/Success";
 import TransactionDetails from "./Function/TransactionDetails";
+import DetailTransaction from "./Class/DetailTransaction";
 
 export const AuthContext = createContext()
 
@@ -68,10 +69,11 @@ function App() {
           <Route exact path='/admin' component={HomeAdmin} />
           <Route exact path='/profile' component={Profile} />
           <Route exact path='/profile/:edit' component={EditProfile} />
-          <Route exact path='/transaction/:id_invoice' component={TransactionDetails} />
+          <Route exact path='/detail/:id_invoice' component={TransactionDetails} />
 
           <Route exact path='/tambah-produk' component={TambahProduk} />
           <Route exact path='/edit-product' component={EditProduct} />
+          <Route exact path='/transaction/:id_transaction' component={DetailTransaction} />
 
           <Route exact path='/product/:id' component={ProductPage} />
           <Route exact path='/keranjang' component={FunctionCartPage} />

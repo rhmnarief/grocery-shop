@@ -8,7 +8,7 @@ import {
     Alert
 } from 'reactstrap'
 import qs from 'querystring';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import axios from 'axios'
 import './Style/TableProduct.css'
@@ -86,7 +86,7 @@ export default class TableProduct extends Component {
                             <tbody >
                                 {this.state.produk.map(produk =>
                                     <tr key={produk.id_produk}>
-                                        <td> <img src={process.env.PUBLIC_URL + '/assets/' + produk.foto} alt="" width="70px" /></td>
+                                        <td> <img src={process.env.PUBLIC_URL + '/assets/' + produk.foto} alt="produk" width="70px" /></td>
                                         <td>{produk.nama_produk}</td>
                                         <td>{produk.kategori}</td>
                                         <td>Rp. {produk.harga}</td>

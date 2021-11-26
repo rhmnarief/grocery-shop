@@ -63,11 +63,13 @@ function NavbarComp(props) {
                 <Row>
                     <Navbar color="white" light expand="sm">
                         <Col xs="2">
+                        <Link to='/home'> 
                             <div className="navbar-brand">
                                 <NavbarBrand>
                                     <img src={process.env.PUBLIC_URL + '/assets/Logo.svg'} alt="" />
                                 </NavbarBrand>
                             </div>
+                        </Link>
                         </Col>
                         <Col xs={{ size: 4, offset: 2 }}>
                             <div className="search-bar d-flex align-items-center justify-content-center">

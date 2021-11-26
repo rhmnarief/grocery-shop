@@ -178,6 +178,7 @@ exports.invoice = (req, res) =>{
     const status = false;
     const transaksi_date = new Date()
     const id_transaksi = `${id}${new Date().toLocaleString().replace(/[^\d]/g,"")}`
+
     connection.query('INSERT INTO invoice (id_transaksi, transaksi_date ,total, id_user, status) VALUES (?,?,?,?,?)',
     [id_transaksi, transaksi_date, cart, id, status],
     function(error, rows, fields){
@@ -188,6 +189,7 @@ exports.invoice = (req, res) =>{
         }
     })
 }
+
 exports.getInvoice =(req, res) =>{
     let id_user = req.params.id_user;
     connection.query('SELECT * FROM invoice WHERE invoice.id_user = ? ', [id_user],
@@ -212,18 +214,34 @@ exports.getAllInvoice = (req,res) => {
     })
 }
 
-exports.getDetailInvoice = (req, res) =>{
-    const {id} = req.body
-    connection.query('SELECT invoice.id_transaksi, transaksi.id_produk, produk.nama_produk, transaksi.jumlah, invoice.total FROM invoice JOIN transaksi JOIN produk WHERE invoice.id_transaksi = transaksi.id_transaksi AND transaksi.id_produk = produk.id_produk AND invoice.id_user = ?',
-    [id],
-    function(error, rows, fields){
+exports.getDetailInvoice = (req,res) => {
+    const id_transaksi = req.params.id_transaksi;
+    connection.query('SELECT transaksi.jumlah , transaksi.id_user, transaksi.id_produk, transaksi.id_transaksi, transaksi.id, produk.nama_produk, produk.harga, produk.foto FROM transaksi JOIN produk WHERE transaksi.id_produk = produk.id_produk AND transaksi.id_transaksi = ?', [id_transaksi],
+    function(error,rows,fields) {
         if(error){
             console.log(error)
-        }else{
-            response.ok(rows, res)
         }
+        else{
+            response.ok(rows, res)
+        }  
     })
 }
+
+exports.updateStatusInvoice = (req,res) => {
+    const {changeStatus} = req.body;
+    console.log(changeStatus)
+    // connection.query('UPDATE invoice SET status = ? WHERE id_invoice = 6', [stat],
+    // function(error,rows,fields) {
+    //     if(error){
+    //         console.log(error)
+    //     }
+    //     else{
+    //         response.ok('berhasil merubah data alamat!', res)
+    //     }  
+    // })
+}
+
+
 
 exports.tambahAlamat = (req,res) => {
     const {firstname, lastname, address, city, states, zip, email, phone, id_user, additional, payment} = req.body;
@@ -242,7 +260,7 @@ exports.updateAlamat = (req,res) => {
     [firstname, lastname, address, city, states, zip, email, phone, additional, payment, id_user],
     function(error,rows,fields){
         if(error) console.log(error) 
-        else response.ok('berhasil menambah data alamat!', res)
+        else response.ok('berhasil merubah data alamat!', res)
     })
 
 }
