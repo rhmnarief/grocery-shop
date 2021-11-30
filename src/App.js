@@ -15,6 +15,7 @@ import EditProfile from "./Function/EditProfile";
 import Success from "./Function/Success";
 import TransactionDetails from "./Function/TransactionDetails";
 import DetailTransaction from "./Class/DetailTransaction";
+import RegisterComp from "./Function/RegisterComp";
 
 export const AuthContext = createContext()
 
@@ -64,8 +65,10 @@ function App() {
           dispatch
         }}>
           <Route exact path='/login' component={Login} />
+          <Route exact path='/register' component={RegisterComp} />
           <Route exact path='/' component={DirectPage} />
           <Route exact path='/home' component={Homepage} />
+          
           <Route exact path='/admin' component={HomeAdmin} />
           <Route exact path='/profile' component={Profile} />
           <Route exact path='/profile/:edit' component={EditProfile} />

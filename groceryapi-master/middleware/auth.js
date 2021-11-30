@@ -112,7 +112,7 @@ exports.registrasi = function (req, res) {
           username: req.body.username,
           email: req.body.email,
           password: md5(req.body.password),
-          role: 3,
+          role: 2,
           tanggal_daftar: new Date(),
           isVerified: 0
      }

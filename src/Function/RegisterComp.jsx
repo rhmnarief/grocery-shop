@@ -1,15 +1,23 @@
-import React, { Component, Fragment, useContext, useState } from 'react';
-import { Button, Container, Form, FormGroup, Label, Input, Col, Row } from 'reactstrap';
+import React, { Component, Fragment, useState } from 'react';
+import { Button, Container, Form, FormGroup, Label, Input, Col, Row, Alert} from 'reactstrap';
 import '../Function/CSS/Login.css'
-import { AuthContext } from '../App';
+// import { AuthContext } from '../App';
 import axios from 'axios';
 
 const qs = require('querystring')
 const api = 'http://localhost:3001'
 
-function Login(props) {
-    const { dispatch } = useContext(AuthContext)
+function RegisterComp(props) {
+    // const { dispatch } = useContext(AuthContext)
+
+  
+    // const [alert, setAlert] = useState(initAlert)
+ 
     const intialState = {
+        display :'none',
+        response : '',
+        opacity : 0,
+        username: "",
         email: "",
         password: "",
         isSubmitting: false,
@@ -29,29 +37,48 @@ function Login(props) {
         event.preventDefault()
         setData({
             ...data,
+            display : 'block',
+            opacity : 1,
+            response : 'Berhasil Menambahkan User!',
             isSubmitting: true,
             errorMessage: null
         })
 
         const requestBody = {
             email: data.email,
-            password: data.password
+            password: data.password,
+            username: data.username
+
         }
         const config = {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }
-        axios.post(api + '/auth/api/v1/login', qs.stringify(requestBody), config)
+        axios.post(api + '/auth/api/v1/register', qs.stringify(requestBody), config)
             .then(res => {
-                if (res.data.success === true) {
-                    dispatch({
-                        type: "LOGIN",
-                        payload: res.data
+                if (res.data.success === true && res.data.isRegistered === false ) {
+                    setData({
+                        ...data, 
+                        isSubmitting : false,
+                        errorMessage : "Berhasil menambahkan user!",
                     })
+                    // setAlert({
+                    //     ...alert,
+                    //     display : 'block',
+                    //     response : 'Berhasil Menambahkan User!'
+                    // })
                     // redirect ke dashboard
-                    props.history.push("/")
-                } else {
+                    // window.location.replace("http://localhost:3000/login")
+                } else if(res.data.success === true && res.data.isRegistered === true ){
+                    setData({
+                        ...data,
+                        isSubmitting: false,
+                        errorMessage: "Email anda telah terdaftar!"
+                    })
+
+                } 
+                else {
                     setData({
                         ...data,
                         isSubmitting: false,
@@ -64,13 +91,28 @@ function Login(props) {
     return (
         <Container>
             <Row>
-                <Col>
+                <Col xs="12">
                     <div className="login">
                         <div className="head">
-                            <h1>Sign In</h1>
+                            <center>
+                                <h1>Sign Up</h1>
+                            </center>
+                            <Alert class=""color="success" style={{ display: data.block , opacity: data.opacity }} >
+                               {data.response}
+                            </Alert>
                         </div>
                         <div className="form mt-2">
                             <Form onSubmit={handleFormSubmit}>
+                            <FormGroup>
+                                    <Input
+                                        type="text"
+                                        name="username"
+                                        id="exampleEmail"
+                                        placeholder="Username"
+                                        value={data.username}
+                                        onChange={handleInputChange}
+                                    />
+                                </FormGroup>
                                 <FormGroup>
                                     <Input
                                         type="email"
@@ -105,12 +147,13 @@ function Login(props) {
                                                 "...loading"
                                             ) :
                                                 (
-                                                    "Login"
+                                                    "Register"
                                                 )
                                         }
                                     </Button>
                                 </center>
-                                <a className="mt-5" href="/register">Belum punya akun? Register!</a>
+                                <a className="mt-5" href="/login">Sudah punya akun? Login</a>
+
                             </Form>
 
                         </div>
@@ -126,4 +169,4 @@ function Login(props) {
     )
 }
 
-export default Login;
+export default RegisterComp;
